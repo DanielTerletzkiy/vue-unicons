@@ -1,129 +1,71 @@
 <template>
-  <!-- eslint-disable vue/no-v-html -->
-  <div class="unicon">
-    <svg
+  <svg
+      v-if="icon"
+      class="unicon"
       xmlns="http://www.w3.org/2000/svg"
-      :width="width"
-      :height="height"
+      :width="size"
+      :height="size"
       :viewBox.camel="viewBox"
-      :fill="localFill"
+      :fill="color"
       v-bind="$attrs"
-      @click="$emit('click')"
-      @mouseover="onHover"
-      @mouseout="onLeave"
-      v-html="icon"
-    />
-  </div>
+      @click="onClick"
+      v-html="icon.path"
+  />
 </template>
 
-<script>
-export default {
-  name: 'Unicon',
+<script setup lang="ts">
+import {PropType, ref, watch} from "vue";
+import {Style, Unicon} from "../../types/Unicon";
 
-  inheritAttrs: false,
-
-  props: {
-    name: {
-      type: String,
-      default: ''
-    },
-    iconStyle: {
-      type: String,
-      default: 'line'
-    },
-    width: {
-      type: [String, Number],
-      default: 24
-    },
-    height: {
-      type: [String, Number],
-      default: 24
-    },
-    fill: {
-      type: String,
-      default: 'inherit'
-    },
-    hoverFill: {
-      type: String,
-      default: null
-    },
-    viewBox: {
-      type: String,
-      default: '0 0 24 24'
-    }
+const emit = defineEmits(['click']);
+const props = defineProps({
+  color: {type: String as PropType<string>, default: 'inherit'},
+  size: {type: Number as PropType<number>, default: 24},
+  viewBox: {type: String as PropType<string>, default: '0 0 24 24'},
+  iconStyle: {
+    type: String as PropType<Style>,
+    default: Style.LINE,
+    validator: (value: Style) => (Object.values(Style).includes(value))
   },
+  name: {type: String as PropType<string>, required: true},
+});
 
-  lib: [],
+const icon = ref<Unicon>()
 
-  add (icons) {
-    if (Array.isArray(icons)) {
-      this.lib = icons
-    } else {
-      this.lib.push(icons)
-    }
-  },
+async function getIcon() {
+  const {default: icons} = await import("../Icons");
+  icon.value = icons.find((icon) => icon.name === props.name && icon.style === props.iconStyle)
+}
 
-  data () {
-    return {
-      localFill: this.fill
-    }
-  },
+watch([() => props.name, () => props.iconStyle], getIcon)
+getIcon()
 
-  computed: {
-    icon () {
-      const icon = this.$options.lib.find(
-        i => i.name === this.name && i.style === this.iconStyle
-      )
-
-      if (icon) {
-        return icon.path
-      } else {
-        console.error(`Name '${this.name}' of the icon is not correct`)
-        return undefined
-      }
-    }
-  },
-
-  watch: {
-    fill (newColor) {
-      this.localFill = newColor
-    }
-  },
-
-  methods: {
-    onHover () {
-      if (this.hoverFill) {
-        this.localFill = this.hoverFill
-      }
-    },
-    onLeave () {
-      if (this.hoverFill) {
-        this.localFill = this.fill
-      }
-    }
-  }
+function onClick(e: Event) {
+  emit('click', e);
 }
 </script>
 
 <style>
 .unicon {
-  display: inline-block;
-}
-.unicon svg {
   transition: 0.2s all;
 }
+
 .uim-primary {
   opacity: 1;
 }
+
 .uim-secondary {
   opacity: 0.7;
 }
+
 .uim-tertiary {
   opacity: 0.5;
 }
+
 .uim-quaternary {
   opacity: 0.25;
 }
+
 .uim-quinary {
   opacity: 0;
 }

@@ -1,93 +1,41 @@
 {
-  "name": "vue-unicons",
-  "version": "3.3.1",
+  "name": "vue3-unicons",
   "private": false,
-  "description": "1000+ Pixel-perfect svg icons for your next project as Vue components",
-  "main": "./dist/vue-unicons.umd.js",
+  "version": "0.0.3",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "rm -rf ./dist && npm run build:libs && npm run build:libs-vue2",
-    "build:libs": "npm run build:esm && npm run build:umd",
-    "build:libs-vue2": "TARGET=vue2 npm run build:libs",
-    "build:esm": "rollup --config ./build/config/rollup/rollup.config.es.js",
-    "build:umd": "rollup --config ./build/config/rollup/rollup.config.umd.js",
-    "build:docs": "vue-cli-service build --dest docs",
-    "generate": "node ./build/generate.js",
-    "lint": "vue-cli-service lint",
-    "test:unit": "vue-cli-service test:unit",
-    "release": "sh ./build/bin/release.sh"
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview"
   },
-  "license": "MIT",
-  "author": "Anton Reshetov",
   "files": [
-    "dist"
+    "src/index.js",
+    "src/components/Unicon.vue"
   ],
-  "module": "./dist/vue-unicons.es.js",
+  "dependencies": {
+    "vue": "^3.2.37"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.3.3",
+    "typescript": "^4.7.4",
+    "vite": "^2.9.13",
+    "vue-tsc": "^0.38.2"
+  },
+  "description": "This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.",
+  "main": "src/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antonreshetov/vue-unicons"
-  },
-  "bugs": {
-    "url": "https://github.com/antonreshetov/vue-unicons/issues"
+    "url": "git+https://github.com/DanielTerletzkiy/vue-unicons.git"
   },
   "keywords": [
     "vue",
-    "vuejs",
-    "vue-component",
-    "vue-icons",
-    "components",
-    "icons"
+    "vue3",
+    "icon",
+    "unicon"
   ],
-  "dependencies": {
-    "@iconscout/unicons": "^4.0.1",
-    "prismjs": "^1.15.0",
-    "vue": "^2.5.22",
-    "vue-analytics": "^5.16.2"
+  "author": "Daniel Terletzkiy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DanielTerletzkiy/vue-unicons/issues"
   },
-  "devDependencies": {
-    "@babel/preset-env": "^7.9.0",
-    "@rollup/plugin-babel": "^5.3.0",
-    "@rollup/plugin-commonjs": "^17.1.0",
-    "@vue/cli-plugin-babel": "^3.4.0",
-    "@vue/cli-plugin-eslint": "^3.4.0",
-    "@vue/cli-plugin-unit-jest": "^3.4.0",
-    "@vue/cli-service": "^3.4.0",
-    "@vue/compiler-sfc": "^3.0.7",
-    "@vue/eslint-config-standard": "^4.0.0",
-    "@vue/test-utils": "^1.0.0-beta.20",
-    "babel-core": "7.0.0-bridge.0",
-    "babel-eslint": "^10.0.1",
-    "babel-jest": "^23.6.0",
-    "chalk": "^2.4.2",
-    "eslint": "^5.8.0",
-    "eslint-plugin-vue": "^5.0.0",
-    "handlebars": "^4.0.12",
-    "lint-staged": "^8.1.3",
-    "lodash.camelcase": "^4.3.0",
-    "node-sass": "^4.9.0",
-    "rollup": "^2.41.0",
-    "rollup-plugin-analyzer": "^4.0.0",
-    "rollup-plugin-copy": "^3.4.0",
-    "rollup-plugin-postcss": "^4.0.0",
-    "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-vue": "^6.0.0",
-    "rollup-plugin-vue-5": "npm:rollup-plugin-vue@5.1.9",
-    "sass-loader": "^7.1.0",
-    "vue-template-compiler": "^2.5.21"
-  },
-  "gitHooks": {
-    "pre-commit": "lint-staged",
-    "commit-msg": "node scripts/verify-commit.js"
-  },
-  "lint-staged": {
-    "*.js": [
-      "vue-cli-service lint",
-      "git add"
-    ],
-    "*.vue": [
-      "vue-cli-service lint",
-      "git add"
-    ]
-  },
-  "types": "./dist/main.d.ts"
+  "homepage": "https://github.com/DanielTerletzkiy/vue-unicons#readme"
 }
